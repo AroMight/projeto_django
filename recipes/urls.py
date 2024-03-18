@@ -5,3 +5,4 @@ from recipes.views import *
 urlpatterns = [
     path('', home),
 ]
+
