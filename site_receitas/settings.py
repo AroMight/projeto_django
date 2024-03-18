@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+    'recipes'
+] #INCLUIR OS APPS CRIADOS AQUI
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
