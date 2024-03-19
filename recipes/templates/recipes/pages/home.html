@@ -4,15 +4,19 @@
 
     {% include "recipes/partials/header.html" %}
 
-    <div class="container">
-        <div class="search-container">
-            <form action="" class="search-form" autocomplete="off">
-                <input type="search" class="search-input" name="search">
-                <button type="submit" class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </form>
+    {% include "recipes/partials/search.html" %}
+           <!--CRIAÇÃO DO CONTAINERS PARA AS RECEITAS-->
+    <main class="main-content-container">
+        <div class="main-content main-content-list container">
+    {% include "recipes/partials/recipes-list.html" %}        
+    {% include "recipes/partials/recipes-list.html" %}        
+    {% include "recipes/partials/recipes-list.html" %}        
+    {% include "recipes/partials/recipes-list.html" %}        
+    {% include "recipes/partials/recipes-list.html" %}        
+    {% include "recipes/partials/recipes-list.html" %}        
         </div>
-    </div>
-
+    </main>
+    {% include "recipes/partials/footer.html" %}
 </body>
 
 </html>
