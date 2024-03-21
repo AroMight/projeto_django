@@ -158,6 +158,18 @@ h6 {
     /* Espacionar de forma padrão os elemtnos do grid */
 }
 
+/* main-content-detail só existe no recipe-view.html */
+.main-content-detail .recipe-list-item {
+    max-width: 84rem;
+    margin: 0 auto;
+}
+
+.main-content-detail .recipe-list-item:hover {
+    transform: scale(1);
+    box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+/* main-content-detail só existe no recipe-view.html */
+
 .recipe {
     background: var(--color-white);
     transition: all 300ms ease-in-out;
