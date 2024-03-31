@@ -10,7 +10,16 @@ def home(request):
     return render(request,'recipes/pages/home.html', context={
         'recipes': recipes,
         })
-  
+
+def recipe(request, id, slug):
+    recipe = get_object_or_404(Recipe.objects.filter(id=id).order_by('-id'))
+
+    return render(request,'recipes/pages/recipe-view.html', context={
+        'recipe': recipe,
+        'is_detail_page': True,
+    })
+
+
 def category(request, category_id):
     recipes = get_list_or_404(
         Recipe.objects.filter(
@@ -23,10 +32,3 @@ def category(request, category_id):
         'title': f'{recipes[0].category.name} | Category'
     })
 
-def recipe(request, id, slug):
-    recipe = get_object_or_404(Recipe.objects.filter(id=id).order_by('-id'))
-
-    return render(request,'recipes/pages/recipe-view.html', context={
-        'recipe': recipe,
-        'is_detail_page': True,
-    })

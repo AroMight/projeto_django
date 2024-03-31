@@ -8,4 +8,3 @@ urlpatterns = [
     path('recipe/<int:id>/<slug:slug>/',views.recipe, name='recipe'),
     path('recipe/category/<int:category_id>/',views.category, name='category'),
 ]
-

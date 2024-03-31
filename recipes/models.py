@@ -28,6 +28,3 @@ class Recipe(models.Model):
     def __str__(self):
         return self.title
     # PARA APARECER O NOME DA RECEITA NO ADMIN
-
-
-# Create your models here.
