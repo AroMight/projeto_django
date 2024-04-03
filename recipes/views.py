@@ -12,7 +12,7 @@ def home(request):
         })
 
 def recipe(request, id, slug):
-    recipe = get_object_or_404(Recipe.objects.filter(id=id).order_by('-id'))
+    recipe = get_object_or_404(Recipe.objects.filter(id=id,is_published=True).order_by('-id'))
 
     return render(request,'recipes/pages/recipe-view.html', context={
         'recipe': recipe,
