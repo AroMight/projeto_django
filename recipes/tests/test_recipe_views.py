@@ -1,6 +1,7 @@
 from django.urls import resolve, reverse
 from recipes import views
 from recipes.tests.test_recipe_base import RecipeTestBase
+from unittest import skip
 
 class RecipeViewsTest(RecipeTestBase):
     def test_home_view_function(self):
@@ -103,3 +104,15 @@ class RecipeViewsTest(RecipeTestBase):
         self.make_recipe(is_published=False)
         response = self.client.get(reverse('recipes:recipe', kwargs={'id': 1, 'slug': 'camiseta'}))
         self.assertEqual(response.status_code, 404)
+
+    def test_search_view_function(self):
+        view = resolve(reverse('recipes:search'))
+        self.assertIs(view.func, views.search)
+
+    def test_search_view_template(self):
+        response = self.client.get(reverse('recipes:search'))
+        self.assertTemplateUsed(response, 'recipes/pages/search.html')
+
+    def test_search_view_status_code_200(self):
+        response = self.client.get(reverse('recipes:search'))
+        self.assertEqual(response.status_code, 200)

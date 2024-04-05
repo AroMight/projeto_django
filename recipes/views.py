@@ -29,6 +29,8 @@ def category(request, category_id):
     
     return render(request,'recipes/pages/category.html', context={
         'recipes': recipes,
-        'title': f'{recipes[0].category.name} | Category'
+        'title': f'Categoria | {recipes[0].category.name}'
     })
 
+def search(request):
+    return render(request, 'recipes/pages/search.html')

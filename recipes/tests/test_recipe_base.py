@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.urls import resolve, reverse
 from recipes.models import Category, Recipe, User
 
 class RecipeTestBase(TestCase):
