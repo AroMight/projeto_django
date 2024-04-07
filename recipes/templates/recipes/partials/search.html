@@ -1,7 +1,7 @@
 <div class="container">
     <div class="search-container">
         <form action="{% url "recipes:search" %}" class="search-form" method='GET' autocomplete="off">
-            <input type="search" class="search-input" value="{{ search_term}}" name="q" required placeholder='O que você quer preparar hoje?'>
+            <input class="search-input" type="search" value="{{search_term}}" name="q" placeholder='O que você quer preparar hoje?' required>
             <button type="submit" class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
     </div>
