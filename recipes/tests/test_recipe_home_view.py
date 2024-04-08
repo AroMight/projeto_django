@@ -35,7 +35,7 @@ class RecipeHomeViewTest(RecipeTestBase):
         response_context_recipes = response.context['recipes']
         self.assertIn('Recipe Title', content)
         self.assertEqual(len(response_context_recipes), 1)
-        self.assertEqual(response_context_recipes.first().is_published, True)
+        self.assertEqual(response_context_recipes.object_list[0].is_published, True)
     
     def test_home_view_no_loads_recipe_if_published_is_false(self):
         '''Test that the home view does not load recipes that are not published.'''
