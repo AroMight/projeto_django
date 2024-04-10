@@ -43,3 +43,26 @@ class RecipeHomeViewTest(RecipeTestBase):
         response = self.client.get(reverse('recipes:home'))
         response_context_recipes = response.context['recipes']
         self.assertEqual(len(response_context_recipes), 0)
+
+    
+    def test_home_view_returns_page_1_if_page_not_int(self):
+        self.make_recipe()
+        self.make_recipe(title='2', slug='two', author_data={'username': 'Luciane'})
+        self.make_recipe(title='3', slug='three',author_data={'username': 'Denilson'})
+        self.make_recipe(title='4', slug='four',author_data={'username': 'natan'})
+        self.make_recipe(title='5', slug='five',author_data={'username': 'davi'})
+        self.make_recipe(title='6', slug='six',author_data={'username': 'kelly'})
+        self.make_recipe(title='7', slug='seve',author_data={'username': 'fabricio'})
+        self.make_recipe(title='8', slug='eig',author_data={'username': 'amanda'})
+        self.make_recipe(title='9', slug='nine',author_data={'username': 'amarildo'})
+        self.make_recipe(title='10', slug='teen',author_data={'username': 'adeilson'})
+        self.make_recipe(title='11', slug='eleve',author_data={'username': 'thalia'})
+        self.make_recipe(title='12', slug='twelve',author_data={'username': 'briuno'})
+        self.make_recipe(title='13', slug='thirty',author_data={'username': 'danilo'})
+        self.make_recipe(title='14', slug='foruty',author_data={'username': 'nairtoin'})
+        self.make_recipe(title='15', slug='fifity',author_data={'username': 'miller'})
+        self.make_recipe(title='16', slug='sixty',author_data={'username': 'guuh'})
+        url = reverse('recipes:home')
+        response = self.client.get(f'{url}?page=not_int')
+        response_context_recipes = response.context['recipes']
+        self.assertEqual(len(response_context_recipes), 9)

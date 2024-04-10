@@ -26,7 +26,7 @@ class RecipeSearchViewTest(RecipeTestBase):
     def test_recipe_search_term_is_on_page_title_and_scaped(self):
         url = reverse('recipes:search') + '?q=<term>'
         response = self.client.get(url)
-        self.assertIn('Buscando por: &lt;term&gt;', response.content.decode('utf-8'))
+        self.assertIn("Buscando por: &quot;&lt;term&gt;&quot;", response.content.decode('utf-8'))
 
     def test_recipe_search_can_find_recipe_by_title(self):
         recipe1 = self.make_recipe(title='This is recipe one',slug='one',author_data={'username': 'Luciane'})
