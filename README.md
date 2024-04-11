@@ -12,7 +12,8 @@ Para configurar este projeto em seu ambiente local, siga estas etapas:
 1. Clone o repositório para sua máquina local usando `git clone`.
 2. Instale as dependências do projeto com `pip install -r requirements.txt`.
 3. Configure o banco de dados executando `python manage.py migrate`.
-4. Inicie o servidor de desenvolvimento com `python manage.py runserver`.
+4. Crie um arquivo .env e configure as variáveis de ambiente necessárias. O projeto possui um arquivo .env-example para lhe ajudar.
+5. Inicie o servidor de desenvolvimento com `python manage.py runserver`.
 
 ## Contribuindo
 Contribuições são bem-vindas!
