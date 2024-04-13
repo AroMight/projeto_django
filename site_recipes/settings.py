@@ -124,7 +124,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = [
     BASE_DIR / 'global_static',
-]
+] #Outros caminhos pro Django procurar arquivos estáticos
 
 STATIC_URL = 'static/' #url em que os arquivos estáticos serão servidos
 STATIC_ROOT = BASE_DIR / 'static' #onde os arquivos estáticos serão armazenados. Obs: Comando COLLECTSTATIC
