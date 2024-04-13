@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import *
 
 
-#OUTRO MÉTODO
+
 class RecipeAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Recipes Details', {'fields':['title', 'description','slug','cover','category']}),
@@ -32,7 +32,7 @@ class RecipeAdmin(admin.ModelAdmin):
         'title',
         ]
 
-#MÉTODO MAIS FÁCIL
+
 class CategoryAdmin(admin.ModelAdmin):
     ...
 
