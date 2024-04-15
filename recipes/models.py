@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Category(models.Model):
     name = models.CharField(max_length=65)
     def __str__(self):
@@ -27,4 +28,4 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
-    # PARA APARECER O NOME DA RECEITA NO ADMIN
+

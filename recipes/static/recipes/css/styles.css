@@ -7,10 +7,10 @@
     --color-primary-dark-hover: #212336;
     --color-primary-light: #d4ecfa;
     --color-primary-light-hover: #bdd8e7;
-  
+
     --color-white: #fff;
     --color-black: #000;
-  
+
     --color-dark-text: #444;
     --color-info-light: #cce5ff;
     --color-debug-light: #cce5ff;
@@ -18,14 +18,14 @@
     --color-alert-light: #fff3cd;
     --color-warning-light: #fff3cd;
     --color-error-light: #f8d7da;
-  
+
     --color-info-dark: #4d86c4;
     --color-debug-dark: #4d86c4;
     --color-success-dark: #4a9c5d;
     --color-alert-dark: #927f40;
     --color-warning-dark: #927f40;
     --color-error-dark: #da525d;
-  
+
     --color-gray-0: #f9f9f9;
     --color-gray-1: #e0e0e0;
     --color-gray-2: #c7c7c7;
@@ -36,13 +36,13 @@
     --color-gray-7: #4b4b4b;
     --color-gray-8: #323232;
     --color-gray-9: #191919;
-  
+
     --font-primary: sans-serif;
     --font-headings: 'Roboto Slab', serif;
-  
+
     --spacing-gutter-medium: 3rem;
     --spacing-gutter-large: 4rem;
-  }
+}
 
 * {
     padding: 0;
@@ -148,7 +148,6 @@ h6 {
     width: fit-content;
     /* AJUSTA O TAMANHO DO CONTEINER AO TAMANHO DO CONTEÚDO */
     margin: 0 auto;
-    /* CENTRALIZA A BOX HORIZONTALMENTE NA BOX PAI */
 }
 
 .main-logo-icon {
