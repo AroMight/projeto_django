@@ -1,8 +1,7 @@
 from django.shortcuts import render
-from .forms import RegisterForm
-from django.http import Http404
 from django.shortcuts import redirect
-from django.contrib import messages
+from django.http import Http404
+from .forms import RegisterForm
 
 
 def register_view(request):
