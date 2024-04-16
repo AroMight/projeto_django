@@ -7,6 +7,10 @@ from .forms import RegisterForm
 def register_view(request):
     register_form_data = request.session.get('register_form_data', None)
     form = RegisterForm(register_form_data)
+    try:
+        del request.session['register_form_data']
+    except KeyError:
+        pass
 
     return render(request, 'authors/pages/register.html', context={
         'title': 'Recipe |',
@@ -19,7 +23,11 @@ def register_create(request):
         raise Http404('Page not found')
 
     POST = request.POST
-    request.session['register_form_data'] = POST
     form = RegisterForm(POST)
+
+    if form.is_valid():
+        form.save()
+    else:
+        request.session['register_form_data'] = POST
 
     return redirect('authors:register')
