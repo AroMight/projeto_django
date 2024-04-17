@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 
 def add_attr(field, attr_name, attr_new_val):
@@ -26,6 +27,7 @@ class RegisterForm(forms.ModelForm):
         add_placecholder(self.fields['email'], 'Your email')
         add_placecholder(self.fields['first_name'], 'Ex: John')
         add_placecholder(self.fields['last_name'], 'Ex: Doe')
+        add_attr(self.fields['username'], 'css', 'a-css-class')
 
     password = forms.CharField(
         required=True,
@@ -45,11 +47,8 @@ class RegisterForm(forms.ModelForm):
     password2 = forms.CharField(
         required=True,
         widget=forms.PasswordInput(attrs={
-            'placeholder': 'Repeat your password',
-        }),
-        error_messages={
-            'required': 'Password must not be empty'
-        },
+            'placeholder': 'Repeat your password'
+        })
     )
 
     class Meta:
@@ -82,10 +81,43 @@ class RegisterForm(forms.ModelForm):
             }
         }
 
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'placeholder': 'Type your username here',
+                'class': 'input text-input'
+            }),
+            'password': forms.PasswordInput(attrs={
+                'placeholder': 'Type your password here'
+            })
+        }
 
-class RegisterRecipe(forms.Form):
-    recipe_title = forms.CharField(label='Nome da Receita', max_length=100, widget=forms.TextInput(
-        attrs={'placeholder': 'Nome da Receita'}))
-    preparation_time = forms.IntegerField(
-        label='Tempo de Preparo', required=True)
-    recipe_img = forms.ImageField(label='Imagem da Receita')
+    # def clean_password2(self):
+    #     '''Check if the passwords match.'''
+    #     data1 = self.cleaned_data.get('password')
+    #     data2 = self.cleaned_data.get('password2')
+
+    #     if data2 != data1:
+    #         raise ValidationError(
+    #             'As senhas devem coincidir',
+    #             code='invalid',
+    #         )
+
+    #     return data2
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        password = cleaned_data.get('password')
+        password2 = cleaned_data.get('password2')
+
+        if password != password2:
+            password_confirmation_error = ValidationError(
+                'Password and password2 must be equal',
+                code='invalid'
+            )
+            raise ValidationError({
+                'password': password_confirmation_error,
+                'password2': [
+                    password_confirmation_error,
+                ],
+            })

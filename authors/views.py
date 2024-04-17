@@ -12,7 +12,7 @@ def register_view(request):
     except KeyError:
         pass
 
-    return render(request, 'authors/pages/register.html', context={
+    return render(request, 'authors/pages/register_view.html', context={
         'title': 'Recipe |',
         'form': form,
     })
