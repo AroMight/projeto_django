@@ -72,6 +72,7 @@ class RegisterForm(forms.ModelForm):
 
         help_texts = {
             'email': 'Enter a valid email address.',
+            'last_name': 'Please, submit your last name'
         }
 
         # required, invalid, max_length, min_length
@@ -91,19 +92,6 @@ class RegisterForm(forms.ModelForm):
             })
         }
 
-    # def clean_password2(self):
-    #     '''Check if the passwords match.'''
-    #     data1 = self.cleaned_data.get('password')
-    #     data2 = self.cleaned_data.get('password2')
-
-    #     if data2 != data1:
-    #         raise ValidationError(
-    #             'As senhas devem coincidir',
-    #             code='invalid',
-    #         )
-
-    #     return data2
-
     def clean(self):
         cleaned_data = super().clean()
 
@@ -121,3 +109,31 @@ class RegisterForm(forms.ModelForm):
                     password_confirmation_error,
                 ],
             })
+
+
+# class RecipeForm(forms.Form):
+#     title = forms.CharField(max_length=100, required=True, label='Título',
+#                             widget=forms.TextInput)
+
+#     password = forms.CharField(max_length=8, widget=forms.PasswordInput(
+#         attrs={'placeholder': 'insira uma senha'}))
+
+#     email = forms.EmailField(required=False, widget=forms.URLInput())
+
+#     homem = forms.BooleanField()
+
+#     CHOICES = {"1": "First", "2": "Second"}
+#     genero = forms.ChoiceField(
+#         widget=forms.SelectMultiple(attrs={'class': 'nt-5'}), choices=CHOICES
+#     )
+
+#     null_bolean_field = forms.BooleanField(widget=forms.NullBooleanSelect)
+
+#     radio_field = forms.ChoiceField(label='Campo de radio',
+#                                     widget=forms.CheckboxSelectMultiple, choices=({'1': 'opção um', '2': 'opção dois'}))
+
+#     ClearableFile = forms.FileField(
+#         required=False, widget=forms.ClearableFileInput)
+
+#     Date_field = forms.DateTimeField(help_text='Digite seu nome completo', error_messages={'invalid': 'OI'},
+#                                      widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
