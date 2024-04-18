@@ -4,7 +4,7 @@
 
 Este repositório é usado para hospedar um site criado com o Django Framework.
 
-Estou utilizando este projeto para aprofundar meu conhecimento em Django, aprendendo sobre o modelo MVT e muitos outros conceitos do Django e do próprio Python.
+Estou utilizando este projeto para aprofundar meu conhecimento em Django, aprendendo sobre o modelo MVT, ORM e muitos outros conceitos do Django e do próprio Python.
 
 ## Configuração do Projeto
 Para configurar este projeto em seu ambiente local, siga estas etapas:
