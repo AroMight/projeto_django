@@ -1,12 +1,12 @@
-
-from django.test import TestCase
+from unittest import TestCase
 from django.urls import reverse
+
 
 class RecipeURLSTest(TestCase):
     def test_recipe_home_url_is_correct(self):
         url = reverse('recipes:home')
         self.assertEqual(url, '/')
-        
+
     def test_recipe_detail_url_is_correct(self):
         url = reverse('recipes:recipe', kwargs={'id': 1, 'slug': 'camiseta'})
         self.assertEqual(url, '/recipe/1/camiseta/')
