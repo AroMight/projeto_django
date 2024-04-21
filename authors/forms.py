@@ -15,12 +15,8 @@ def add_placeholder(field, placeholder_val):
     add_attr(field, 'placeholder', placeholder_val)
 
 
-def add_autocomplete_off(field):
-    '''Remove the autocomplete feature from the field.'''
-    add_attr(field, 'autocomplete', 'off')
-
-
 def strong_password(password):
+    '''Check if the password is strong enough.'''
     regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
 
     if not regex.match(password):
@@ -132,30 +128,13 @@ class RegisterForm(forms.ModelForm):
                 ],
             })
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email', '')
+        exists = User.objects.filter(email=email).exists()
 
-# class RecipeForm(forms.Form):
-#     title = forms.CharField(max_length=100, required=True, label='Título',
-#                             widget=forms.TextInput)
+        if exists:
+            raise ValidationError(
+                'User e-mail is already in use', code='invalid',
+            )
 
-#     password = forms.CharField(max_length=8, widget=forms.PasswordInput(
-#         attrs={'placeholder': 'insira uma senha'}))
-
-#     email = forms.EmailField(required=False, widget=forms.URLInput())
-
-#     homem = forms.BooleanField()
-
-#     CHOICES = {"1": "First", "2": "Second"}
-#     genero = forms.ChoiceField(
-#         widget=forms.SelectMultiple(attrs={'class': 'nt-5'}), choices=CHOICES
-#     )
-
-#     null_bolean_field = forms.BooleanField(widget=forms.NullBooleanSelect)
-
-#     radio_field = forms.ChoiceField(label='Campo de radio',
-#                                     widget=forms.CheckboxSelectMultiple, choices=({'1': 'opção um', '2': 'opção dois'}))
-
-#     ClearableFile = forms.FileField(
-#         required=False, widget=forms.ClearableFileInput)
-
-#     Date_field = forms.DateTimeField(help_text='Digite seu nome completo', error_messages={'invalid': 'OI'},
-#                                      widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
+        return email

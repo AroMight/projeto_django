@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from django.http import Http404
 from .forms import RegisterForm
 from django.contrib import messages
+from django.urls import reverse
 
 
 def register_view(request):
@@ -12,6 +13,7 @@ def register_view(request):
     return render(request, 'authors/pages/register_view.html', context={
         'title': 'Recipe |',
         'form': form,
+        'form_action': reverse('authors:create')
     })
 
 
@@ -20,14 +22,15 @@ def register_create(request):
         raise Http404('Page not found')
 
     POST = request.POST
+    request.session['register_form_data'] = POST
     form = RegisterForm(POST)
 
     if form.is_valid():
-        form.save()
+        user = form.save(commit=False)
+        user.set_password(user.password)
+        user.save()
+
         messages.success(request, 'User created successfully, please log in.')
         del request.session['register_form_data']
-
-    else:
-        request.session['register_form_data'] = POST
 
     return redirect('authors:register')
