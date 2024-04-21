@@ -10,5 +10,5 @@ class AuthorsURLSTest(TestCase):
 
     def test_create_url_is_correct(self):
         '''Test if the URL for the create view is correct.'''
-        url = reverse('authors:create')
+        url = reverse('authors:register_create')
         self.assertEqual(url, '/authors/register/create/')
