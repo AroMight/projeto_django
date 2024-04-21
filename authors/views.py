@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.urls import reverse
 from django.http import Http404
-from django.contrib import messages
 from .forms import RegisterForm
+from django.contrib import messages
+from django.urls import reverse
 
 
 def register_view(request):
@@ -13,7 +13,7 @@ def register_view(request):
     return render(request, 'authors/pages/register_view.html', context={
         'title': 'Recipe |',
         'form': form,
-        'form_action': reverse('authors: register_create')
+        'form_action': reverse('authors:create')
     })
 
 
@@ -33,12 +33,4 @@ def register_create(request):
         messages.success(request, 'User created successfully, please log in.')
         del request.session['register_form_data']
 
-    return redirect('authors:register_create')
-
-
-def login_view(request):
-    return render(request, 'authors/pages/login.html')
-
-
-def login_create(request):
-    return render(request, 'authors/pages/login.html')
+    return redirect('authors:register')
