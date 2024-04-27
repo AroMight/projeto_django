@@ -36,8 +36,9 @@ class RecipeHomeViewTest(RecipeTestBase):
         response_context_recipes = response.context['recipes']
         self.assertIn('Recipe Title', content)
         self.assertEqual(len(response_context_recipes), 1)
-        self.assertEqual(response_context_recipes.object_list[0].is_published, True)
-    
+        self.assertEqual(
+            response_context_recipes.object_list[0].is_published, True)
+
     def test_home_view_no_loads_recipe_if_published_is_false(self):
         '''Test that the home view does not load recipes that are not published.'''
         self.make_recipe(is_published=False)
@@ -46,9 +47,7 @@ class RecipeHomeViewTest(RecipeTestBase):
         self.assertEqual(len(response_context_recipes), 0)
 
     def test_home_view_is_pagineted(self):
-        import recipes
-        for i in range(14):
-            self.make_recipe(title=f'{i}', slug=f'slug-{i}', author_data={'username': f'user-{i}'})
+        self.make_recipe_in_batch(14)
 
         with patch('recipes.views.PER_PAGE', new=3):
             url = reverse('recipes:home')

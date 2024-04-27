@@ -17,7 +17,7 @@
     }
   },
   "[html]": {
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "editor.defaultFormatter": "vscode.html-language-features",
     "editor.quickSuggestions": {
       "other": true,
@@ -26,7 +26,7 @@
     }
   },
   "[django-html]": {
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "vscode.html-language-features",
     "editor.quickSuggestions": {
       "other": true,
