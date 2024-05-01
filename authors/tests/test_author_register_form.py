@@ -7,7 +7,7 @@ from django.urls import reverse
 
 class AuthorsRegisterFormUniTest(TestCase):
     @parameterized.expand([
-        ('username', 'Your first name'),
+        ('username', 'Your username'),
         ('email', 'Your email'),
         ('first_name', 'Ex.: John'),
         ('last_name', 'Ex: Doe'),
