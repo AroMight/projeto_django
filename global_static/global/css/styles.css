@@ -135,24 +135,24 @@ h6 {
     border-radius: .4rem;
 }
 
-.form-content button:hover{
+.form-content button:hover {
     background: var(--color-primary-dark-hover);
     cursor: pointer;
 }
 
 .inline-form {
     display: inline;
-  }
-  
-  .plaintext-button {
+}
+
+.plaintext-button {
     display: inline;
     border: none;
     background: none;
     cursor: pointer;
     color: var(--color-primary);
     font-size: 1.6rem;
-  }
-  
+}
+
 
 /* Messages */
 
@@ -205,6 +205,12 @@ h6 {
     background: var(--color-debug-light);
     color: var(--color-debug-dark);
 }
+
+/* Authors */
+.login-message {
+    margin: 1rem 0;
+}
+
 
 
 .main-logo {
@@ -441,7 +447,23 @@ h6 {
 }
 
 @media (max-width: 600px) {
-    .main-content-list, .form-content-grid {
+
+    .main-content-list,
+    .form-content-grid {
         grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
     }
+}
+
+.authors-dashboard-container {
+    max-width: 64rem;
+    text-align: left;
+    padding: var(--spacing-gutter-medium);
+    margin: 0 auto;
+}
+
+.authors-dashboard-container h3,
+.authors-dashboard-container p,
+.authors-dashboard-container ul {
+    list-style-type: none;
+    margin: 1rem 0;
 }

@@ -25,7 +25,7 @@ class AuthorsLoginTest(AuthorsBaseTest):
         form.submit()
 
         # usuario vê a mensagem de sucesso
-        self.assertIn(f'Your are logged in as {user.username}.',
+        self.assertIn(f'Your are logged in with {user.username}.',
                       self.browser.find_element(By.TAG_NAME, 'body').text)
 
     def test_login_create_raises_404_if_not_POST_method(self):

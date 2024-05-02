@@ -44,6 +44,13 @@
     --spacing-gutter-large: 4rem;
 }
 
+/* Authors */
+.login-message {
+    margin: 1rem 0;
+  }
+  
+
+
 * {
     padding: 0;
     margin: 0;
@@ -191,6 +198,7 @@ h6 {
     background: var(--color-debug-light);
     color: var(--color-debug-dark);
 }
+
 
 
 .main-logo {
@@ -430,4 +438,9 @@ h6 {
     .main-content-list, .form-content-grid {
         grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
     }
+}
+
+.authors-dashboard-container {
+    max-width: 64rem;
+    padding: var(--spacing-gutter-medium);
 }
