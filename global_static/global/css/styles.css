@@ -135,7 +135,7 @@ a {
 .form-content-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-    gap: calc(var(--spacing-gutter-medium)/2) var(--spacing-gutter-medium);
+    gap: calc(var(--spacing-gutter-medium) / 2) var(--spacing-gutter-medium);
 }
 
 .form-content button {
@@ -472,6 +472,8 @@ a {
         grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
     }
 }
+
+
 
 .authors-dashboard-container {
     max-width: 64rem;
