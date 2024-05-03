@@ -27,7 +27,7 @@
   },
   "[django-html]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.defaultFormatter": "junstyle.vscode-django-support",
     "editor.quickSuggestions": {
       "other": true,
       "comments": true,

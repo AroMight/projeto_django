@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY','INSECURE')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'INSECURE')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get('DEBUG') == '1' else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    ]
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,7 +60,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'global_templates',
-            ],
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,13 +123,14 @@ USE_TZ = True
 
 STATICFILES_DIRS = [
     BASE_DIR / 'global_static',
-] #Outros caminhos pro Django procurar arquivos estáticos
+]  # Outros caminhos pro Django procurar arquivos estáticos
 
-STATIC_URL = 'static/' #url em que os arquivos estáticos serão servidos
-STATIC_ROOT = BASE_DIR / 'static' #onde os arquivos estáticos serão armazenados. Obs: Comando COLLECTSTATIC
+STATIC_URL = 'static/'  # url em que os arquivos estáticos serão servidos
+# onde os arquivos estáticos serão armazenados. Obs: Comando COLLECTSTATIC
+STATIC_ROOT = BASE_DIR / 'static'
 
-MEDIA_URL = '/media/' #url em que os arquivos de mídia serão servidos
-MEDIA_ROOT = BASE_DIR / 'media' #onde os arquivos de midia serão armazenados.
+MEDIA_URL = '/media/'  # url em que os arquivos de mídia serão servidos
+MEDIA_ROOT = BASE_DIR / 'media'  # onde os arquivos de midia serão armazenados.
 
 
 # Default primary key field type
