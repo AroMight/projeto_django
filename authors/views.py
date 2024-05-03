@@ -124,6 +124,7 @@ def dashboard_recipe_edit(request, id):
         recipe.author = request.user
         recipe.preparation_steps_is_html = False
         recipe.is_published = False
+        recipe.slug = recipe.title.lower().replace(' ', '-')[:50]
 
         recipe.save()
 
@@ -134,3 +135,41 @@ def dashboard_recipe_edit(request, id):
     return render(request, 'authors/pages/dashboard_recipe.html', context={
         'form': form,
     })
+
+
+def dashboard_recipe_view(request):
+
+    form = AuthorRecipeForm(
+        data=request.POST or None,
+        files=request.FILES or None,
+    )
+
+    return render(request, 'authors/pages/dashboard_recipe.html', context={
+        'form_action': reverse('authors:dashboard_recipe_create'),
+        'form': form,
+    })
+
+
+def dashboard_recipe_create(request):
+
+    if not request.POST:
+        raise Http404()
+
+    form = AuthorRecipeForm(
+        data=request.POST or None,
+        files=request.FILES or None,
+    )
+
+    if form.is_valid():
+        recipe = form.save(commit=False)
+
+        recipe.author = request.user
+        recipe.preparation_steps_is_html = False
+        recipe.is_published = False
+        recipe.slug = recipe.title.lower().replace(' ', '-')[:50]
+
+        recipe.save()
+
+        messages.success(request, 'Recipe created successfully.')
+
+        return redirect(reverse('authors:dashboard_recipe_edit', args=(recipe.pk,)))
