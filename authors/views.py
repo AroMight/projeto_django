@@ -137,23 +137,8 @@ def dashboard_recipe_edit(request, id):
     })
 
 
-def dashboard_recipe_view(request):
-
-    form = AuthorRecipeForm(
-        data=request.POST or None,
-        files=request.FILES or None,
-    )
-
-    return render(request, 'authors/pages/dashboard_recipe.html', context={
-        'form_action': reverse('authors:dashboard_recipe_create'),
-        'form': form,
-    })
-
-
-def dashboard_recipe_create(request):
-
-    if not request.POST:
-        raise Http404()
+@login_required(login_url='authors:login', redirect_field_name='next')
+def dashboard_recipe_new(request):
 
     form = AuthorRecipeForm(
         data=request.POST or None,
@@ -172,4 +157,11 @@ def dashboard_recipe_create(request):
 
         messages.success(request, 'Recipe created successfully.')
 
-        return redirect(reverse('authors:dashboard_recipe_edit', args=(recipe.pk,)))
+    return render(
+        request,
+        'authors/pages/dashboard_recipe.html',
+        context={
+            'form': form,
+            'form_action': reverse('authors:dashboard_recipe_new')
+        }
+    )
