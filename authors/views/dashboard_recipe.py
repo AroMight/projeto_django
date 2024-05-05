@@ -6,19 +6,43 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from authors.forms.recipe_form import AuthorRecipeForm
 from recipes.models import Recipe
+from django.utils.decorators import method_decorator
 
 
+# ler documentação views
+@method_decorator(login_required(login_url='authors:login', redirect_field_name='next'), name='dispatch')
 class DashboardRecipe(View):
 
-    def get(self, request, id):
-        recipe = Recipe.objects.filter(
-            is_published=False,
-            author=request.user,
-            pk=id,
-        ).first()
+    def get_recipe(self, id=None):
+        recipe = None
 
-        if not recipe:
-            raise Http404()
+        if id is not None:
+            recipe = Recipe.objects.filter(
+                is_published=False,
+                author=self.request.user,
+                pk=id,
+            ).first()
+
+            if not recipe:
+                raise Http404()
+
+        return recipe
+
+    def render_recipe(self, form):
+        return render(self.request, 'authors/pages/dashboard_recipe.html',
+                      context={'form': form,
+                               }
+                      )
+
+    def get(self, request, id=None):
+        recipe = self.get_recipe(id)
+
+        form = AuthorRecipeForm(instance=recipe)
+
+        return self.render_recipe(form)
+
+    def post(self, request, id=None):
+        recipe = self.get_recipe(id)
 
         form = AuthorRecipeForm(
             data=request.POST or None,
@@ -32,14 +56,11 @@ class DashboardRecipe(View):
             recipe.author = request.user
             recipe.preparation_steps_is_html = False
             recipe.is_published = False
-            recipe.slug = recipe.title.lower().replace(' ', '-')[:50]
 
             recipe.save()
 
             messages.success(request, 'Recipe updated successfully.')
 
-            return redirect(reverse('authors:dashboard_recipe_edit', args=(id,)))
+            return redirect(reverse('authors:dashboard_recipe_edit', args=(recipe.id,)))
 
-        return render(request, 'authors/pages/dashboard_recipe.html', context={
-            'form': form,
-        })
+        return self.render_recipe(form)
