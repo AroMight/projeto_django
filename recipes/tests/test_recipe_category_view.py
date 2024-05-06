@@ -9,7 +9,7 @@ class RecipeCategoryViewTest(RecipeTestBase):
         view = resolve(
             reverse('recipes:category', kwargs={'category_id': 1000})
         )
-        self.assertIs(view.func, views.category)
+        self.assertIs(view.func.view_class, views.RecipeListViewCategory)
 
     def test_category_view_status_code_404(self):
         '''Test that the category view returns a 404 status code when the category does not exist.'''

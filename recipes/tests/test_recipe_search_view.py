@@ -6,7 +6,7 @@ from recipes.tests.test_recipe_base import RecipeTestBase
 class RecipeSearchViewTest(RecipeTestBase):
     def test_search_view_function(self):
         view = resolve(reverse('recipes:search'))
-        self.assertIs(view.func, views.search)
+        self.assertIs(view.func.view_class, views.RecipeListViewSearch)
 
     def test_search_view_template(self):
         url = reverse('recipes:search') + '?q=term'
@@ -26,11 +26,14 @@ class RecipeSearchViewTest(RecipeTestBase):
     def test_recipe_search_term_is_on_page_title_and_scaped(self):
         url = reverse('recipes:search') + '?q=<term>'
         response = self.client.get(url)
-        self.assertIn("Buscando por: &quot;&lt;term&gt;&quot;", response.content.decode('utf-8'))
+        self.assertIn("Buscando por: &quot;&lt;term&gt;&quot;",
+                      response.content.decode('utf-8'))
 
     def test_recipe_search_can_find_recipe_by_title(self):
-        recipe1 = self.make_recipe(title='This is recipe one',slug='one',author_data={'username': 'Luciane'})
-        recipe2 = self.make_recipe(title='This is recipe two',slug='two',author_data={'username': 'Denilson'})
+        recipe1 = self.make_recipe(
+            title='This is recipe one', slug='one', author_data={'username': 'Luciane'})
+        recipe2 = self.make_recipe(title='This is recipe two', slug='two', author_data={
+                                   'username': 'Denilson'})
 
         search_url = reverse('recipes:search')
         response1 = self.client.get(f'{search_url}?q=one')
@@ -45,4 +48,4 @@ class RecipeSearchViewTest(RecipeTestBase):
 
         self.assertIn(recipe1 and recipe2, response_both.context['recipes'])
 
-    #CRIAR TESTES PARA CTEGORY E DESCRIPTION
+    # CRIAR TESTES PARA CTEGORY E DESCRIPTION

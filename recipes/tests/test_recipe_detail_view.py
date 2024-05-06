@@ -9,7 +9,7 @@ class RecipeDeatilViewTest(RecipeTestBase):
         view = resolve(
             reverse('recipes:recipe', kwargs={'id': 1, 'slug': 'camiseta'})
         )
-        self.assertIs(view.func, views.recipe)
+        self.assertIs(view.func.view_class, views.RecipeDetail)
 
     def test_detail_view_status_code_404(self):
         '''Test that the detail view returns a 404 status code when the recipe does not exist.'''
@@ -29,5 +29,6 @@ class RecipeDeatilViewTest(RecipeTestBase):
     def test_detail_view_no_loads_recipe_if_published_is_false(self):
         ''''Test that the detail view does not load recipes that are not published.'''
         self.make_recipe(is_published=False)
-        response = self.client.get(reverse('recipes:recipe', kwargs={'id': 1, 'slug': 'camiseta'}))
+        response = self.client.get(
+            reverse('recipes:recipe', kwargs={'id': 1, 'slug': 'camiseta'}))
         self.assertEqual(response.status_code, 404)

@@ -13,6 +13,17 @@ from django.utils.decorators import method_decorator
 @method_decorator(login_required(login_url='authors:login', redirect_field_name='next'), name='dispatch')
 class DashboardRecipe(View):
 
+    def __init__(self, *args, **kwargs):
+        print('Overriding the init method.')  # del
+
+    def setup(self, *args, **kwargs):
+        print('Overriding the setup method.')  # del
+        return super().setup(*args, **kwargs)
+
+    def dispatch(self, *args, **kwargs):
+        print('Overriding the dispatch method.')  # del
+        return super().dispatch(*args, **kwargs)
+
     def get_recipe(self, id=None):
         recipe = None
 
@@ -64,3 +75,12 @@ class DashboardRecipe(View):
             return redirect(reverse('authors:dashboard_recipe_edit', args=(recipe.id,)))
 
         return self.render_recipe(form)
+
+
+@method_decorator(login_required(login_url='authors:login', redirect_field_name='next'), name='dispatch')
+class DashboardRecipeDelete(DashboardRecipe):
+    def post(self, request, id):
+        recipe = self.get_recipe(id)
+        recipe.delete()  # type: ignore
+        messages.success(request, 'Deleted successfully.')
+        return redirect(reverse('authors:dashboard'))
