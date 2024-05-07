@@ -7,8 +7,3 @@ class AuthorsURLSTest(TestCase):
         '''Test if the URL for the register view is correct.'''
         url = reverse('authors:register')
         self.assertEqual(url, '/authors/register/')
-
-    def test_create_url_is_correct(self):
-        '''Test if the URL for the create view is correct.'''
-        url = reverse('authors:register_create')
-        self.assertEqual(url, '/authors/register/create/')

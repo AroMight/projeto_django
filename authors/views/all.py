@@ -6,42 +6,23 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from authors.forms import RegisterForm, LoginForm
-from authors.forms.recipe_form import AuthorRecipeForm
+from django.views.generic import FormView
 from recipes.models import Recipe
 
 
-def register_view(request):
-    '''Display the register form.'''
-    register_form_data = request.session.get('register_form_data', None)
-    form = RegisterForm(register_form_data)
+class RegisterView(FormView):
+    form_class = RegisterForm
+    template_name = 'authors/pages/register_view.html'
+    success_url = '/authors/login/'
 
-    return render(request, 'authors/pages/register_view.html', context={
-        'title': 'Recipe |',
-        'form': form,
-        'form_action': reverse('authors:register_create')
-    })
-
-
-def register_create(request):
-    '''Create a new user.'''
-    if not request.POST:
-        raise Http404('Page not found')
-
-    POST = request.POST
-    request.session['register_form_data'] = POST
-    form = RegisterForm(POST)
-
-    if form.is_valid():
+    def form_valid(self, form):
         user = form.save(commit=False)
         user.set_password(user.password)
         user.save()
 
-        messages.success(request, 'User created successfully, please log in.')
-        del request.session['register_form_data']
-
-        return redirect('authors:login')
-
-    return redirect('authors:register')
+        messages.success(
+            self.request, 'User created successfully, please log in.')
+        return super().form_valid(form)
 
 
 def login_view(request):
