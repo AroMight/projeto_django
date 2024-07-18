@@ -2,10 +2,10 @@ import os
 from django.db.models import Q
 from django.forms import model_to_dict
 from django.http import Http404, JsonResponse
-from django.http.response import HttpResponse as HttpResponse
+from django.http.response import HttpResponse
 from django.views.generic import ListView, DetailView
 from utils.pagination import make_pagination
-from .models import Recipe
+from recipes.models import Recipe
 
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
