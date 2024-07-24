@@ -6,15 +6,18 @@ from recipes.models import Recipe, Category
 from recipes.serializers import RecipeSerializer, CategorySerializer
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def recipe_api_list(request):
-    recipes = Recipe.objects.filter(is_published=True).order_by(
-        '-id').select_related('category', 'author')[:10]
-    serializer = RecipeSerializer(
-        instance=recipes,
-        many=True,
-        context={'request': request})
-    return Response(serializer.data)
+    if request.method == 'GET':
+        recipes = Recipe.objects.filter(is_published=True).order_by(
+            '-id').select_related('category', 'author')[:10]
+        serializer = RecipeSerializer(
+            instance=recipes,
+            many=True,
+            context={'request': request})
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        return Response({'detail': 'Not implemented.'}, status=status.HTTP_501_NOT_IMPLEMENTED)
 
 
 @api_view(['GET'])
