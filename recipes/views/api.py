@@ -17,10 +17,16 @@ def recipe_api_list(request):
             context={'request': request})
         return Response(serializer.data)
     elif request.method == 'POST':
-        return Response({'detail': 'Not implemented.'}, status=status.HTTP_501_NOT_IMPLEMENTED)
+        serializer = RecipeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED
+        )
 
 
-@api_view(['GET'])
+@ api_view(['GET'])
 def recipe_api_detail(request, id):
     # recipes = get_object_or_404(Recipe.objects.filter(id=pk))
     # serializer = RecipeSerializer(instance=recipes)
@@ -36,7 +42,7 @@ def recipe_api_detail(request, id):
         return Response({'detail': 'Recipe not found.'}, status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['GET'])
+@ api_view(['GET'])
 def recipe_api_category(request, pk):
     category = Category.objects.filter(id=pk).first()
     if category:
