@@ -127,3 +127,6 @@ _local_settings.py
 gunicorn-error-log
 db.sqlite3
 static/
+
+#tests
+tests.py
