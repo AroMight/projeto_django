@@ -22,6 +22,10 @@ class RecipeSerializer(serializers.ModelSerializer):
             'preparation_steps',
         ]
 
+    preparation_time_unit = serializers.CharField(write_only=True)
+    preparation_time = serializers.IntegerField(write_only=True)
+    preparation_steps = serializers.CharField(write_only=True)
+    author_name = serializers.StringRelatedField(source='author')
     public = serializers.BooleanField(source='is_published', read_only=True)
     preparation = serializers.SerializerMethodField(read_only=True)
     category_name = serializers.StringRelatedField(
@@ -32,12 +36,17 @@ class RecipeSerializer(serializers.ModelSerializer):
         lookup_field='pk',
         source='category',
     )
-    author_name = serializers.StringRelatedField(source='author')
 
     def get_preparation(self, obj):
         """Returns the preparation time and unit."""
         return {'preparation time': obj.preparation_time,
-                'preparation time unit': obj.preparation_time_unit}
+                'preparation time unit': obj.preparation_time_unit,
+                'preparation steps': obj.preparation_steps}
+
+    # def get_author(self, obj):
+    #     """Returns the preparation time and unit."""
+    #     return {'author_id': obj.author_id,
+    #             'author_name': obj.author_username}
 
     # def validate_title(self, value):
     #     if len(value) < 5:
@@ -46,6 +55,15 @@ class RecipeSerializer(serializers.ModelSerializer):
     #     return value
 
     def validate(self, data):
+        if self.instance is not None and data.get('servings') is None:
+            data['servings'] = self.instance.servings
+
+        if self.instance is not None and data.get('preparation_time') is None:
+            data['preparation_time'] = self.instance.preparation_time
+
+        if self.instance is not None and data.get('title') is None:
+            data['title'] = self.instance.title
+
         validate_fields = super().validate(data)
         AuthorRecipeValidator(
             validate_fields,
