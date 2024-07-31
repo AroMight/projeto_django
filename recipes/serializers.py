@@ -17,19 +17,34 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'description', 'public',
             'preparation', 'category', 'category_name',
-            'category_link', 'author', 'author_name', 'preparation_time_unit',
-            'preparation_time', 'servings', 'servings_unit', 'cover',
-            'preparation_steps',
+            'category_link', 'author', 'author_name',
+            'preparation_time_unit', 'preparation_time', 'servings',
+            'servings_unit', 'cover', 'preparation_steps',
         ]
 
     preparation_time_unit = serializers.CharField(write_only=True)
+
     preparation_time = serializers.IntegerField(write_only=True)
+
     preparation_steps = serializers.CharField(write_only=True)
-    author_name = serializers.StringRelatedField(source='author')
-    public = serializers.BooleanField(source='is_published', read_only=True)
+
+    author_name = serializers.StringRelatedField(
+        read_only=True,
+        source='author',
+    )
+
+    public = serializers.BooleanField(
+        source='is_published',
+        read_only=True
+    )
+
     preparation = serializers.SerializerMethodField(read_only=True)
+
     category_name = serializers.StringRelatedField(
-        source='category', read_only=True)
+        source='category',
+        read_only=True,
+    )
+
     category_link = serializers.HyperlinkedRelatedField(
         read_only=True,
         view_name='recipes:recipe_api_v2_category',
@@ -44,7 +59,6 @@ class RecipeSerializer(serializers.ModelSerializer):
                 'preparation steps': obj.preparation_steps}
 
     # def get_author(self, obj):
-    #     """Returns the preparation time and unit."""
     #     return {'author_id': obj.author_id,
     #             'author_name': obj.author_username}
 
