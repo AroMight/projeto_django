@@ -6,6 +6,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
+from django.http import Http404
 from recipes.models import Recipe, Category
 from recipes.serializers import RecipeSerializer, CategorySerializer
 
@@ -17,6 +18,19 @@ class RecipeAPIv2Pagination(PageNumberPagination):
 class RecipeAPIv2ViewSet(ModelViewSet):
     queryset = Recipe.objects.all().order_by(
         '-id').select_related('category', 'author')
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        category_id = self.request.query_params.get('category_id', '')
+
+        if category_id != '' and category_id.isnumeric():
+            qs = qs.filter(category_id=category_id)
+
+            return qs
+
+        raise Http404('Category not found or invalid.')
+
     serializer_class = RecipeSerializer
     lookup_field = 'id'
     pagination_class = RecipeAPIv2Pagination
@@ -43,6 +57,7 @@ class RecipeAPIv2ViewSet(ModelViewSet):
         )
 
 
+# Extras
 class RecipeAPIV2List(ListCreateAPIView):
 
     queryset = Recipe.objects.filter(is_published=True).order_by(
