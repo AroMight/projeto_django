@@ -4,11 +4,11 @@ from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django.shortcuts import get_object_or_404
-from django.http import Http404
 from recipes.models import Recipe, Category
 from recipes.serializers import RecipeSerializer, CategorySerializer
+from ..permissions import IsOwner
 
 
 class RecipeAPIv2Pagination(PageNumberPagination):
@@ -19,6 +19,21 @@ class RecipeAPIv2ViewSet(ModelViewSet):
     queryset = Recipe.objects.all().order_by(
         '-id').select_related('category', 'author')
 
+    serializer_class = RecipeSerializer
+    lookup_field = 'id'
+    pagination_class = RecipeAPIv2Pagination
+    permission_classes = [
+        IsAuthenticatedOrReadOnly
+    ]
+
+    def get_object(self):
+        pk = self.kwargs.get('id')
+        obj = get_object_or_404(self.get_queryset(), pk=pk)
+
+        self.check_object_permissions(self.request, obj)
+
+        return obj
+
     def get_queryset(self):
         qs = super().get_queryset()
 
@@ -27,25 +42,18 @@ class RecipeAPIv2ViewSet(ModelViewSet):
         if category_id != '' and category_id.isnumeric():
             qs = qs.filter(category_id=category_id)
 
-            return qs
-
-        raise Http404('Category not found or invalid.')
-
-    serializer_class = RecipeSerializer
-    lookup_field = 'id'
-    pagination_class = RecipeAPIv2Pagination
+        return qs
 
     # exemplo de sobrescrita de metodo
     def partial_update(self, request, *args, **kwargs):
         id = kwargs.get('id')
-        recipe = self.get_queryset().filter(id=id).first()
+        recipe = self.get_object()
         serializer = RecipeSerializer(
             instance=recipe,
             data=request.data,
             context={'request': request},
             partial=True,
         )
-        print('Wtf, porque deu certo?')
         serializer.is_valid(raise_exception=True)
         serializer.save(
             category_id=1, author_id=1
@@ -56,8 +64,16 @@ class RecipeAPIv2ViewSet(ModelViewSet):
             status=status.HTTP_200_OK
         )
 
+    def get_permissions(self):
+        if self.request.method in ['PATCH', 'DELETE']:
+            return [IsOwner()]
+        if self.request.method == 'POST':
+            return [IsAuthenticatedOrReadOnly()]
+        return super().get_permissions()
 
 # Extras
+
+
 class RecipeAPIV2List(ListCreateAPIView):
 
     queryset = Recipe.objects.filter(is_published=True).order_by(
@@ -125,46 +141,46 @@ def recipe_api_list(request):
         )
 
 
-class RecipeAPIV2Detail(APIView):
+# class RecipeAPIV2Detail(APIView):
 
-    def get_recipe(self, id):
-        recipe = get_object_or_404(Recipe.objects.filter(id=id))
+#     def get_recipe(self, id):
+#         recipe = get_object_or_404(Recipe.objects.filter(id=id))
 
-        return recipe
+#         return recipe
 
-    def get(self, request, id):
+#     def get(self, request, id):
 
-        recipe = self.get_recipe(id)
-        serializer = RecipeSerializer(
-            instance=recipe,
-            context={'request': request}
-        )
-        return Response(serializer.data)
+#         recipe = self.get_recipe(id)
+#         serializer = RecipeSerializer(
+#             instance=recipe,
+#             context={'request': request}
+#         )
+#         return Response(serializer.data)
 
-    def patch(self, request, id):
-        recipe = self.get_recipe(id)
-        serializer = RecipeSerializer(
-            instance=recipe,
-            data=request.data,
-            many=False,
-            context={'request': request},
-            partial=True,
-        )
+#     def patch(self, request, id):
+#         recipe = self.get_recipe(id)
+#         serializer = RecipeSerializer(
+#             instance=recipe,
+#             data=request.data,
+#             many=False,
+#             context={'request': request},
+#             partial=True,
+#         )
 
-        serializer.is_valid(raise_exception=True)
-        serializer.save(
-            category_id=1, author_id=1
-        )
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save(
+#             category_id=1, author_id=1
+#         )
 
-        return Response(
-            serializer.data,
-            status=status.HTTP_200_OK
-        )
+#         return Response(
+#             serializer.data,
+#             status=status.HTTP_200_OK
+#         )
 
-    def delete(self, request, id):
-        recipe = self.get_recipe(id)
-        recipe.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+#     def delete(self, request, id):
+#         recipe = self.get_recipe(id)
+#         recipe.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET', 'PATCH', 'DELETE'])

@@ -8,3 +8,4 @@ from .messages import *  # noqa
 from .i18n import *  # noqa
 from .assets import *  # noqa
 from .debug_toolbar import *  # noqa
+from .rest_framework import *  # noqa
