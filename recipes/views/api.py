@@ -18,7 +18,7 @@ class RecipeAPIv2Pagination(PageNumberPagination):
 class RecipeAPIv2ViewSet(ModelViewSet):
     queryset = Recipe.objects.all().order_by(
         '-id').select_related('category', 'author')
-
+    http_method_names = ['get', 'post', 'patch', 'delete', 'options', 'head']
     serializer_class = RecipeSerializer
     lookup_field = 'id'
     pagination_class = RecipeAPIv2Pagination
@@ -44,6 +44,19 @@ class RecipeAPIv2ViewSet(ModelViewSet):
 
         return qs
 
+    def create(self, request, *args, **kwargs):
+        # request.data['author'] = request.user
+        serializer = self.get_serializer(data=request.data)
+        print(request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(author=request.user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
+
     # exemplo de sobrescrita de metodo
     def partial_update(self, request, *args, **kwargs):
         id = kwargs.get('id')
@@ -56,7 +69,7 @@ class RecipeAPIv2ViewSet(ModelViewSet):
         )
         serializer.is_valid(raise_exception=True)
         serializer.save(
-            category_id=1, author_id=1
+            category_id=1,
         )
 
         return Response(
