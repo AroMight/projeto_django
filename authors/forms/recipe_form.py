@@ -3,7 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from recipes.models import Recipe
 from utils.django_forms import add_attr
-from authors.validators import AuthorRecipeValidator
+from authors.validators.recipes_validators import AuthorRecipeValidator
 
 
 class AuthorRecipeForm(forms.ModelForm):

@@ -83,14 +83,4 @@ class RecipeSerializer(serializers.ModelSerializer):
             validate_fields,
             ErrorClass=serializers.ValidationError
         )
-        # title = validate_fields.get('title')
-        # description = validate_fields.get('description')
-
-        # if title == description:
-        #     raise serializers.ValidationError(
-        #         {
-        #             "title": ["Title and description must be different."],
-        #             "description": ["Title and description must be different."]
-        #         }
-        #     )
         return data

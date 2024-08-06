@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from ..validators import AuthorsRegisterValidator
 from utils.django_forms import add_placeholder, strong_password
 
 
@@ -90,29 +91,4 @@ class RegisterForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-
-        password = cleaned_data.get('password')
-        password2 = cleaned_data.get('password2')
-
-        if password != password2:
-            password_confirmation_error = ValidationError(
-                'Password and password2 must be equal',
-                code='invalid'
-            )
-            raise ValidationError({
-                'password': password_confirmation_error,
-                'password2': [
-                    password_confirmation_error,
-                ],
-            })
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email', '')
-        exists = User.objects.filter(email=email).exists()
-
-        if exists:
-            raise ValidationError(
-                'User e-mail is already in use', code='invalid',
-            )
-
-        return email
+        AuthorsRegisterValidator(cleaned_data, ErrorClass=ValidationError)

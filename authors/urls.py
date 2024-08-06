@@ -1,5 +1,14 @@
 from django.urls import path
+from rest_framework.routers import SimpleRouter
 from . import views
+from django.urls import include
+
+author_api_v2_router = SimpleRouter(trailing_slash=True)
+author_api_v2_router.register(
+    r'api/v2',
+    views.AuthorAPIv2ViewSet,
+    basename='author_api_v2',
+)
 
 app_name = 'authors'
 
@@ -15,4 +24,5 @@ urlpatterns = [
          views.DashboardRecipeDelete.as_view(), name='dashboard_recipe_delete'),
     path('dashboard/recipe/<int:id>/edit',
          views.DashboardRecipe.as_view(), name='dashboard_recipe_edit'),
+    path('', include(author_api_v2_router.urls)),
 ]
